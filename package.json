@@ -1,0 +1,26 @@
+{
+  "name": "midna",
+  "version": "1.0.0",
+  "description": "SDC",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDC-TeamMidna/Midna.git"
+  },
+  "author": "Andy Fang, Van Nguyen, Bishal Gautam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDC-TeamMidna/Midna/issues"
+  },
+  "homepage": "https://github.com/SDC-TeamMidna/Midna#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "express": "^4.17.1",
+    "jest": "^27.2.2"
+  }
+}
