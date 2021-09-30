@@ -1,39 +1,78 @@
 const express = require('express');
-
 const db = require('../database/index.js');
 
-const PORT = process.env.PORT || 3000;
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-const courses = [{
-  id: 1, name: 'course 1',
-  id: 2, name: 'course 2',
-  id: 3, name: 'course 3'
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-}];
-
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
-
-// app.get('/api/course', (req, res) => {
-//   res.send([1,2,3]);
-// });
-
-// app.get('/api/post/:year/:month', (req, res) => {
-//   res.send(res.params);
-// });
-
-app.get('/api/post/:id', (req, res) => {
-  const course = courses.find(c => c.id === parseInt(res.params.id));
-  if(!course) res.status(404).send('The course with the given Id was not found!');
-  res.send(course);
- });
+//ROUTES//
+//Get all the questions
+app.get('/questions', (reg, res) => {
+  db.getQuestions()
+    .then(data => res.json(data))
+    .catch( err => res.send(err).status(500));
+})
 
 
+// Get the answer for the Question
+
+//Create a Question
 // app.post()
-// app.put()
+
+// Create a Answer
+
+// Update a Question
+
+// Update a answer
+
+
 
 app.listen(PORT, () => {
   console.log(`Server listening at localhost:${PORT}!`);
 });
+
+
+
+/**
+ *
+router.get('/questions', (req, res) => {
+  AtelierAPI('GET', '/qa/questions', req.query)
+    .then(response => {
+      var finalQ = response.data.results.sort((a, b) => (b.question_helpfulness - a.question_helpfulness));
+      res.send(finalQ).status(200);
+    })
+    .catch(err => {
+      res.send(err).status(500);
+    });
+});
+
+app.get('/api/transactions', (req, res) => {
+  // var queryString = `SELECT * FROM transactions`;
+  var queryString = `SELECT transactions.id, transactions.date, transactions.amount,transactions.description, category.name
+    FROM transactions
+    LEFT JOIN category
+    ON transactions.category_id = category.id `;
+
+  db.query(queryString, (err, data, fields) => {
+    if (err) {
+      throw err;
+    }
+    res.statusCode = 200;
+    res.send({ results: data });
+  });
+});
+
+
+
+app.get('/questions', (req, res) => {
+  res.send('Hello World');
+});
+
+// app.get('/api/post/:id', (req, res) => {
+//   const course = courses.find(c => c.id === parseInt(res.params.id));
+//   if(!course) res.status(404).send('The course with the given Id was not found!');
+//   res.send(course);
+//  });
+ */
