@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/SDC-TeamMidna/Midna#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",

@@ -1,4 +1,7 @@
 const express = require('express');
+
+const db = require('../database/index.js');
+
 const PORT = process.env.PORT || 3000;
 const app = express();
 
