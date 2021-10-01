@@ -9,14 +9,19 @@ app.use(express.urlencoded({ extended: true }));
 
 //ROUTES//
 //Get all the questions
-app.get('/questions', (reg, res) => {
+app.get('qa/questions', (req, res) => {
   db.getQuestions()
-    .then(data => res.json(data))
+    .then(data => res.json(data.rows))
     .catch( err => res.send(err).status(500));
-})
-
+});
 
 // Get the answer for the Question
+app.get('/questions/:question_id/answers', (req, res) => {
+  var questionID = req.params['question_id'];
+  db.getAnswers(questionID)
+    .then(data => res.json(data.rows))
+    .catch( err => res.send(err).status(500));
+});
 
 //Create a Question
 // app.post()

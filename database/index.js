@@ -13,13 +13,21 @@ pool.connect()
   .then(() => console.log('Connected to PostgresSQL server'))
   .catch((err) => console.log('Error connecting to server', err));
 
+// GET Questions
 const getQuestions = () => {
-  var queryString = 'SELECT * FROM question ORDER BY id ASC LIMIT 3';
+  var queryString = 'SELECT * FROM question ORDER BY id ASC LIMIT 100';
   return pool.query(queryString)
 };
 
+// GET Answers from The Question
+const getAnswers = ((question_id) => {
+  const queryString = 'SELECT * FROM answer WHERE question_id=' + question_id + 'ORDER BY id ASC LIMIT 3';
+  return pool.query(queryString)
+});
+
 module.exports = {
   getQuestions,
+  getAnswers,
   pool,
 };
 
