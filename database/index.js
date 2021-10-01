@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const pool = new Pool ({
+const pool = new Pool({
   user: 'vannguyen',
   host: 'localhost',
   database: 'SDC',
@@ -20,16 +20,32 @@ const getQuestions = () => {
 };
 
 // GET Answers from The Question
-const getAnswers = ((question_id) => {
-  const queryString = 'SELECT * FROM answer WHERE question_id=' + question_id + 'ORDER BY id ASC LIMIT 3';
+const getAnswers = ((question_id, page, count) => {
+  const queryString = 'SELECT * FROM answer WHERE question_id=' + question_id + 'ORDER BY id ASC LIMIT ' + count;
   return pool.query(queryString)
+});
+
+//POST a question
+const addQuestion = ((data) => {
+  var date_written = new Date();
+  const queryString = {
+    text: 'INSERT INTO question(product_id, body, date_written, asker_name, asker_email) VALUES($1, $2, $3, $4, $5)',
+    values: [data.product_id, data.body, date_written, data.name, data.email],
+  }
+  pool.query(queryString)
+    .then(res => console.log(res.rows[0]))
+    .catch(e => console.error(e.stack))
 });
 
 module.exports = {
   getQuestions,
   getAnswers,
+  addQuestion,
   pool,
 };
+
+
+
 
 
 

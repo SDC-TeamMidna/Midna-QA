@@ -9,22 +9,31 @@ app.use(express.urlencoded({ extended: true }));
 
 //ROUTES//
 //Get all the questions
-app.get('qa/questions', (req, res) => {
+app.get('/qa/questions', (req, res) => {
   db.getQuestions()
     .then(data => res.json(data.rows))
-    .catch( err => res.send(err).status(500));
+    .catch(err => res.send(err).status(500));
 });
 
 // Get the answer for the Question
-app.get('/questions/:question_id/answers', (req, res) => {
-  var questionID = req.params['question_id'];
-  db.getAnswers(questionID)
+app.get('/qa/questions/:question_id/answers', (req, res) => {
+  const questionID = req.params['question_id'];
+  const params = {
+    page: Number(req.query.page) || 0,
+    count: Number(req.query.count) || 5,
+  }
+
+  db.getAnswers(questionID, params.page, params.count)
     .then(data => res.json(data.rows))
-    .catch( err => res.send(err).status(500));
+    .catch(err => res.send(err).status(500));
 });
 
+
 //Create a Question
-// app.post()
+app.post('/qa/questions', (req, res) => {
+  var params = req.body;
+  db.addQuestion(params);
+});
 
 // Create a Answer
 
