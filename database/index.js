@@ -16,7 +16,11 @@ pool.connect()
 // GET Questions
 const getQuestions = ((productID, page, count) => {
   console.log(productID);
-  var queryString = `SELECT * FROM question WHERE question.product_id = ${productID} ORDER BY id ASC LIMIT ${count}`;
+  var queryString = `
+    SELECT * FROM question
+    WHERE question.product_id = ${productID}
+    ORDER BY id ASC
+    LIMIT ${count}`;
   return pool.query(queryString)
 });
 
@@ -25,7 +29,12 @@ const getAnswers = ((question_id, page, count) => {
   var queryAnwser = `answer.id, question_id, body, date_written, answerer_name, answerer_email, reported, helpful`;
   var queryPhoto = `JSON_AGG(json_build_object('id', photo.id, 'url', photo.url))`;
 
-  var queryString = `SELECT ${queryAnwser}, ${queryPhoto} FROM answer LEFT JOIN photo ON answer.id = photo.answer_id WHERE question_id = ${question_id} GROUP BY answer.id ORDER BY answer.id ASC LIMIT ${count}`;
+  var queryString = `
+    SELECT ${queryAnwser}, COALESCE(${queryPhoto} FILTER (WHERE photo.url IS NOT NULL), '[]') as photos
+    FROM answer
+    LEFT JOIN photo ON answer.id = photo.answer_id WHERE question_id = ${question_id}
+    GROUP BY answer.id ORDER BY answer.id ASC
+    LIMIT ${count}`;
   return pool.query(queryString)
 });
 
@@ -52,10 +61,8 @@ const addAnswer = ((questionID, data) => {
 // Add photos
 const AddPhoto = (answerID, data) => {
   const queryString = 'INSERT INTO photo(answer_id, url) VALUES($1, $2)';
-  data.forEach(photo => {
-    console.log(photo);
-    pool.query(queryString, [answerID, photo])
-  });
+  const arrPhoto = data.map(photo => pool.query(queryString, [answerID, photo]));
+  return Promise.all(arrPhoto);
 }
 
 //Mark Question Helpful

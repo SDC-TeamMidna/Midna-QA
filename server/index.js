@@ -48,7 +48,7 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
   console.log(params);
   db.addAnswer(questionID, params)
     .then((data) => {
-      res.sendStatus(201);
+     // res.sendStatus(201);
       var answerID = data.rows[0].id;
       db.AddPhoto(answerID, params.photo)
       .then(() => res.sendStatus(201))
