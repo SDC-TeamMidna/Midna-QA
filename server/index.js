@@ -52,9 +52,24 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
 });
 
 // Update a Question
+app.put('/qa/questions/:question_id/helpful', (req, res) => {
+  const questionID = req.params['question_id'];
+  var params = req.body;
+  console.log(params);
+  db.markQHelpful(questionID, params)
+    .then(() => res.sendStatus(201))
+    .catch(err => console.error(err.stack));
+});
 
 // Update a answer
-
+app.put('/qa/answers/:answer_id/helpful', (req, res) => {
+  const answersID = req.params['answer_id'];
+  var params = req.body;
+  console.log(answersID);
+  db.markAHelpful(answersID, params)
+    .then(() => res.sendStatus(201))
+    .catch(err => console.error(err.stack));
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening at localhost:${PORT}!`);
