@@ -16,7 +16,7 @@ pool.connect()
 // GET Questions
 const getQuestions = ((productID, page, count) => {
   console.log(productID);
-  var queryString = `SELECT * FROM question  WHERE question.product_id = ${productID} ORDER BY id ASC LIMIT ${count}`;
+  var queryString = `SELECT * FROM question WHERE question.product_id = ${productID} ORDER BY id ASC LIMIT ${count}`;
   return pool.query(queryString)
 });
 
@@ -61,7 +61,21 @@ const markAHelpful = ((answerID, params) => {
   return pool.query(queryString)
 });
 
+//Mark Question Reported
+const markQReport = ((questionID, params) => {
+  const queryString = `UPDATE question SET reported = ${params.num} WHERE question.id = ${questionID}`;
+  return pool.query(queryString)
+});
+
+//Mark Anser Reported
+const markAReport = ((answerID, params) => {
+  const queryString = `UPDATE answer SET reported = ${params.num} WHERE answer.id = ${answerID}`;
+  return pool.query(queryString)
+});
+
 module.exports = {
+  markAReport,
+  markQReport,
   markAHelpful,
   markQHelpful,
   getQuestions,
