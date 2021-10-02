@@ -1,5 +1,5 @@
 CREATE TABLE "product" (
-  "id" serial NOT NULL,
+  "id" serial,
   "name" varchar,
   "slogan" varchar,
   "description" varchar,
@@ -9,10 +9,10 @@ CREATE TABLE "product" (
 );
 
 CREATE TABLE "question" (
-  "id" serial not null,
+  "id" serial,
   "product_id" int NOT NULL,
   "body" varchar,
-  "date_written" timestamptz NOT NULL,
+  "date_written" bigint,
   "asker_name" varchar,
   "asker_email" varchar,
   "reported" int,
@@ -21,10 +21,10 @@ CREATE TABLE "question" (
 );
 
 CREATE TABLE "answer" (
-  "id" serial not null,
+  "id" serial,
   "question_id" int NOT NULL,
   "body" varchar,
-  "date_written" timestamptz NOT NULL,
+  "date_written" bigint,
   "answerer_name" varchar,
   "answerer_email" varchar,
   "reported" int,
@@ -33,7 +33,7 @@ CREATE TABLE "answer" (
 );
 
 CREATE TABLE "photo" (
-  "id" serial not null,
+  "id" serial,
   "answer_id" int NOT NULL,
   "url" text,
    PRIMARY KEY(id)
@@ -54,12 +54,11 @@ copy photo (id,answer_id,url) from '/Users/vannguyen/work/Midna-QA/diagram/SDC/a
 
 
 /* change date timestamp format */
-ALTER TABLE question
-ALTER COLUMN date_written SET DATA TYPE timestamp with time zone
-USING
-timestamp with time zone 'epoch' + date_written * interval '1 millisecond';
-ALTER TABLE answer
-ALTER COLUMN date_written SET DATA TYPE timestamp with time zone
-USING
-timestamp with time zone 'epoch' + date_written * interval '1 millisecond';
-
+-- ALTER TABLE question
+-- ALTER COLUMN date_written SET DATA TYPE timestamp with time zone
+-- USING
+-- timestamp with time zone 'epoch' + date_written * interval '1 millisecond';
+-- ALTER TABLE answer
+-- ALTER COLUMN date_written SET DATA TYPE timestamp with time zone
+-- USING
+-- timestamp with time zone 'epoch' + date_written * interval '1 millisecond';
