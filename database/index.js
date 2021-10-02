@@ -14,10 +14,11 @@ pool.connect()
   .catch((err) => console.log('Error connecting to server', err));
 
 // GET Questions
-const getQuestions = () => {
-  var queryString = 'SELECT * FROM question ORDER BY id ASC LIMIT 100';
+const getQuestions = ((productID, page, count) => {
+  console.log(productID);
+  var queryString = `SELECT * FROM question  WHERE question.product_id = ${productID} ORDER BY id ASC LIMIT ${count}`;
   return pool.query(queryString)
-};
+});
 
 // GET Answers from The Question
 const getAnswers = ((question_id, page, count) => {
@@ -29,14 +30,8 @@ const getAnswers = ((question_id, page, count) => {
 //POST a question
 const addQuestion = ((data) => {
   var date_written = new Date();
-  const queryString = {
-    text: `INSERT INTO question(product_id, body, date_written, asker_name, asker_email) VALUES($1, $2, $3, $4, $5)`,
-    values: [data.product_id, data.body, date_written, data.name, data.email],
-  }
-  // SELECT id FROM product WHERE product.id = data.product_id
-  pool.query(queryString)
-    .then(res => console.log(res.rows[0]))
-    .catch(err => console.error(err.stack))
+  const queryString = `INSERT INTO question(product_id, body, date_written, asker_name, asker_email) VALUES ($1, $2, $3, $4, $5)`;
+  return pool.query(queryString, [data.product_id, data.body, date_written, data.name, data.email]);
 });
 
 // //POST an Anwser
@@ -69,8 +64,6 @@ module.exports = {
 
 
 
-
-
 //   pool.query('SELECT * FROM public.answer ORDER BY id ASC LIMIT 1', (err, res) => {
 //   console.log(err, res);
 //   pool.end;
@@ -87,3 +80,5 @@ module.exports = {
 //       callback(null, res.rows);
 //     }
 //   })};
+
+//https://stackoverflow.com/questions/4448340/postgresql-duplicate-key-violates-unique-constraint

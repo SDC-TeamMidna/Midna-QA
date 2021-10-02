@@ -10,7 +10,12 @@ app.use(express.urlencoded({ extended: true }));
 //ROUTES//
 //Get all the questions
 app.get('/qa/questions', (req, res) => {
-  db.getQuestions()
+  const params = {
+    productID: Number(req.query.productID) || null,
+    page: Number(req.query.page) || 0,
+    count: Number(req.query.count) || 10
+  }
+  db.getQuestions(params.productID, params.page, params.count)
     .then(data => res.json(data.rows))
     .catch(err => res.send(err).status(500));
 });
@@ -32,10 +37,17 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
 //Create a Question
 app.post('/qa/questions', (req, res) => {
   var params = req.body;
-  db.addQuestion(params);
+  db.addQuestion(params)
+    .then(() => res.sendStatus(201))
+    .catch(err => console.error(err.stack))
 });
 
-// Create a Answer
+// // Create a Answer
+// app.post('/qa/questions/:question_id/answers', (req, res) => {
+//   const questionID = req.params['question_id'];
+//   var params = req.body;
+//   db.addAnswer(questionID, params);
+// });
 
 // Update a Question
 
@@ -61,23 +73,6 @@ router.get('/questions', (req, res) => {
       res.send(err).status(500);
     });
 });
-
-app.get('/api/transactions', (req, res) => {
-  // var queryString = `SELECT * FROM transactions`;
-  var queryString = `SELECT transactions.id, transactions.date, transactions.amount,transactions.description, category.name
-    FROM transactions
-    LEFT JOIN category
-    ON transactions.category_id = category.id `;
-
-  db.query(queryString, (err, data, fields) => {
-    if (err) {
-      throw err;
-    }
-    res.statusCode = 200;
-    res.send({ results: data });
-  });
-});
-
 
 
 app.get('/questions', (req, res) => {
