@@ -43,11 +43,20 @@ const addQuestion = ((data) => {
 const addAnswer = ((questionID, data) => {
   var date_written = new Date();
   const queryString = {
-    text: 'INSERT INTO answer(question_id, body, date_written, answerer_name, answerer_email) VALUES($1, $2, $3, $4, $5)',
+    text: 'INSERT INTO answer(question_id, body, date_written, answerer_name, answerer_email) VALUES($1, $2, $3, $4, $5) RETURNING id',
     values: [questionID, data.body, date_written, data.name, data.email],
   }
   return pool.query(queryString.text, queryString.values)
 });
+
+// Add photos
+const AddPhoto = (answerID, data) => {
+  const queryString = 'INSERT INTO photo(answer_id, url) VALUES($1, $2)';
+  data.forEach(photo => {
+    console.log(photo);
+    pool.query(queryString, [answerID, photo])
+  });
+}
 
 //Mark Question Helpful
 const markQHelpful = ((questionID, params) => {
@@ -74,6 +83,7 @@ const markAReport = ((answerID, params) => {
 });
 
 module.exports = {
+  AddPhoto,
   markAReport,
   markQReport,
   markAHelpful,
@@ -85,24 +95,5 @@ module.exports = {
   pool,
 };
 
-
-
-
-//   pool.query('SELECT * FROM public.answer ORDER BY id ASC LIMIT 1', (err, res) => {
-//   console.log(err, res);
-//   pool.end;
-// });
-
-// CAllback
-// const getQuestions = (callback) => {
-//   var queryString = 'SELECT * FROM question ORDER BY id ASC LIMIT 3';
-//   pool.query(queryString, (err, res) => {
-//     console.log('question', res);
-//     if(err) {
-//       callback(err, null);
-//     } else {
-//       callback(null, res.rows);
-//     }
-//   })};
 
 //https://stackoverflow.com/questions/4448340/postgresql-duplicate-key-violates-unique-constraint
