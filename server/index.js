@@ -45,7 +45,6 @@ app.post('/qa/questions', (req, res) => {
 app.post('/qa/questions/:question_id/answers', (req, res) => {
   const questionID = req.params['question_id'];
   var params = req.body;
-  console.log(params);
   db.addAnswer(questionID, params)
     .then((data) => {
      // res.sendStatus(201);
@@ -62,8 +61,8 @@ app.put('/qa/questions/:question_id/helpful', (req, res) => {
   const questionID = req.params['question_id'];
   var params = req.body;
   db.markQHelpful(questionID, params)
-    // .then(() => res.sendStatus(201))
-    // .catch(err => console.error(err.stack));
+    .then(() => res.sendStatus(201))
+    .catch(err => console.error(err.stack));
 });
 
 // Mark Answer Helpful
@@ -88,7 +87,6 @@ app.put('/qa/questions/:question_id/report', (req, res) => {
 app.put('/qa/answers/:answer_id/report', (req, res) => {
   const answersID = req.params['answer_id'];
   var params = req.body;
-  console.log(params);
   db.markAReport(answersID, params)
     .then(() => res.sendStatus(201))
     .catch(err => console.error(err.stack));

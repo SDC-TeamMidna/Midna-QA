@@ -15,10 +15,9 @@ pool.connect()
 
 // GET Questions
 const getQuestions = ((productID, page, count) => {
-  console.log(productID);
   var queryString = `
     SELECT * FROM question
-    WHERE question.product_id = ${productID}
+    WHERE question.product_id = ${productID}  AND question.reported=0
     ORDER BY id ASC
     LIMIT ${count}`;
   return pool.query(queryString)
@@ -32,7 +31,7 @@ const getAnswers = ((question_id, page, count) => {
   var queryString = `
     SELECT ${queryAnwser}, COALESCE(${queryPhoto} FILTER (WHERE photo.url IS NOT NULL), '[]') as photos
     FROM answer
-    LEFT JOIN photo ON answer.id = photo.answer_id WHERE question_id = ${question_id}
+    LEFT JOIN photo ON answer.id = photo.answer_id WHERE question_id = ${question_id} AND answer.reported=0
     GROUP BY answer.id ORDER BY answer.id ASC
     LIMIT ${count}`;
   return pool.query(queryString)
@@ -42,8 +41,8 @@ const getAnswers = ((question_id, page, count) => {
 const addQuestion = ((data) => {
   var date_written = new Date();
   const queryString = {
-    text: `INSERT INTO question(product_id, body, date_written, asker_name, asker_email) VALUES ($1, $2, $3, $4, $5)`,
-    values: [data.product_id, data.body, date_written, data.name, data.email],
+    text: `INSERT INTO question(product_id, body, date_written, asker_name, asker_email, reported, helpful) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+    values: [data.product_id, data.body, date_written, data.name, data.email, 0 , 0]
   }
   return pool.query(queryString.text, queryString.values)
 });
@@ -52,8 +51,8 @@ const addQuestion = ((data) => {
 const addAnswer = ((questionID, data) => {
   var date_written = new Date();
   const queryString = {
-    text: 'INSERT INTO answer(question_id, body, date_written, answerer_name, answerer_email) VALUES($1, $2, $3, $4, $5) RETURNING id',
-    values: [questionID, data.body, date_written, data.name, data.email],
+    text: 'INSERT INTO answer(question_id, body, date_written, answerer_name, answerer_email, reported, helpful) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+    values: [questionID, data.body, date_written, data.name, data.email, 0 , 0]
   }
   return pool.query(queryString.text, queryString.values)
 });
@@ -101,6 +100,3 @@ module.exports = {
   addAnswer,
   pool,
 };
-
-
-//https://stackoverflow.com/questions/4448340/postgresql-duplicate-key-violates-unique-constraint
