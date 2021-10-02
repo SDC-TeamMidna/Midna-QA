@@ -42,17 +42,18 @@ app.post('/qa/questions', (req, res) => {
     .catch(err => console.error(err.stack))
 });
 
-// // Create a Answer
-// app.post('/qa/questions/:question_id/answers', (req, res) => {
-//   const questionID = req.params['question_id'];
-//   var params = req.body;
-//   db.addAnswer(questionID, params);
-// });
+// Create a Answer
+app.post('/qa/questions/:question_id/answers', (req, res) => {
+  const questionID = req.params['question_id'];
+  var params = req.body;
+  db.addAnswer(questionID, params)
+    .then(() => res.sendStatus(201))
+    .catch(err => console.error(err.stack));
+});
 
 // Update a Question
 
 // Update a answer
-
 
 
 app.listen(PORT, () => {
@@ -61,27 +62,8 @@ app.listen(PORT, () => {
 
 
 
-/**
- *
-router.get('/questions', (req, res) => {
-  AtelierAPI('GET', '/qa/questions', req.query)
-    .then(response => {
-      var finalQ = response.data.results.sort((a, b) => (b.question_helpfulness - a.question_helpfulness));
-      res.send(finalQ).status(200);
-    })
-    .catch(err => {
-      res.send(err).status(500);
-    });
-});
-
-
-app.get('/questions', (req, res) => {
-  res.send('Hello World');
-});
-
 // app.get('/api/post/:id', (req, res) => {
 //   const course = courses.find(c => c.id === parseInt(res.params.id));
 //   if(!course) res.status(404).send('The course with the given Id was not found!');
 //   res.send(course);
 //  });
- */

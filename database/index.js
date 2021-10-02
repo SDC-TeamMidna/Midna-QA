@@ -22,32 +22,35 @@ const getQuestions = ((productID, page, count) => {
 
 // GET Answers from The Question
 const getAnswers = ((question_id, page, count) => {
+  var queryAnwser = `answer.id, question_id, body, date_written, answerer_name, answerer_email, reported, helpful`;
   var queryPhoto = `JSON_AGG(json_build_object('id', photo.id, 'url', photo.url))`;
-  var queryString = `SELECT answer.id, question_id, body, date_written, answerer_name, answerer_email, reported, helpful, ${queryPhoto} FROM answer LEFT JOIN photo ON answer.id = photo.answer_id WHERE question_id = ${question_id} GROUP BY answer.id ORDER BY answer.id ASC LIMIT ${count}`;
+
+  var queryString = `SELECT ${queryAnwser}, ${queryPhoto} FROM answer LEFT JOIN photo ON answer.id = photo.answer_id WHERE question_id = ${question_id} GROUP BY answer.id ORDER BY answer.id ASC LIMIT ${count}`;
+
   return pool.query(queryString)
 });
 
 //POST a question
 const addQuestion = ((data) => {
   var date_written = new Date();
-  const queryString = `INSERT INTO question(product_id, body, date_written, asker_name, asker_email) VALUES ($1, $2, $3, $4, $5)`;
-  return pool.query(queryString, [data.product_id, data.body, date_written, data.name, data.email]);
+  const queryString = {
+    text: `INSERT INTO question(product_id, body, date_written, asker_name, asker_email) VALUES ($1, $2, $3, $4, $5)`,
+    values: [data.product_id, data.body, date_written, data.name, data.email],
+  }
+
+  return pool.query(queryString.text, queryString.values)
 });
 
-// //POST an Anwser
-// const addAnswer = ((questionID, data) => {
-//   var date_written = new Date();
-//   const queryString = {
-//     text: 'INSERT INTO answer(question_id, body, date_written, answerer_name, answerer_email) VALUES($1, $2, $3, $4, $5)',
-//     values: [questionID, data.body, date_written, data.name, data.email],
-//   }
-//   pool.query(queryString)
-//     .then(res => console.log(res.rows[0]))
-//     .catch(e => console.error(e.stack))
-// });
+//POST an Anwser
+const addAnswer = ((questionID, data) => {
+  var date_written = new Date();
+  const queryString = {
+    text: 'INSERT INTO answer(question_id, body, date_written, answerer_name, answerer_email) VALUES($1, $2, $3, $4, $5)',
+    values: [questionID, data.body, date_written, data.name, data.email],
+  }
 
-
-
+  return pool.query(queryString.text, queryString.values)
+});
 
 
 const updateQHelpful = ((questionID) => {
@@ -58,6 +61,7 @@ module.exports = {
   getQuestions,
   getAnswers,
   addQuestion,
+  addAnswer,
   pool,
 };
 
