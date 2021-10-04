@@ -54,14 +54,14 @@ copy photo (id,answer_id,url) from '/Users/vannguyen/work/Midna-QA/diagram/SDC/a
 
 
 /* change date timestamp format */
--- ALTER TABLE question
--- ALTER COLUMN date_written SET DATA TYPE timestamp with time zone
--- USING
--- timestamp with time zone 'epoch' + date_written * interval '1 millisecond';
--- ALTER TABLE answer
--- ALTER COLUMN date_written SET DATA TYPE timestamp with time zone
--- USING
--- timestamp with time zone 'epoch' + date_written * interval '1 millisecond';
+ALTER TABLE question
+ALTER COLUMN date_written SET DATA TYPE timestamp with time zone
+USING
+timestamp with time zone 'epoch' + date_written * interval '1 millisecond';
+ALTER TABLE answer
+ALTER COLUMN date_written SET DATA TYPE timestamp with time zone
+USING
+timestamp with time zone 'epoch' + date_written * interval '1 millisecond';
 
 /* Add index for foreign key */
 CREATE INDEX product_id_idx ON question(product_id);
@@ -69,7 +69,7 @@ CREATE INDEX question_id_idx ON answer(question_id);
 CREATE INDEX answer_id_idx ON photo(answer_id);
 
 /* unique constraint*/
--- SELECT setval('"photo_id_seq"', (SELECT MAX(id) FROM public."photo")+1);
--- SELECT setval('"answer_id_seq"', (SELECT MAX(id) FROM public."answer")+1);
--- SELECT setval('"question_id_seq"', (SELECT MAX(id) FROM public."question")+1);
+SELECT setval('"photo_id_seq"', (SELECT MAX(id) FROM public."photo")+1);
+SELECT setval('"answer_id_seq"', (SELECT MAX(id) FROM public."answer")+1);
+SELECT setval('"question_id_seq"', (SELECT MAX(id) FROM public."question")+1);
 

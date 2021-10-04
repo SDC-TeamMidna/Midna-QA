@@ -1,13 +1,19 @@
+
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../config/.env')});
+
 const { Pool } = require('pg');
 const pool = new Pool({
-  user: 'vannguyen',
-  host: 'localhost',
-  database: 'SDC',
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST || 'localhost',
+  database: process.env.DB || 'SDC',
+  port: process.env.DB_PORT,
   password: '',
   max: 20,
   idleTimeoutMillis: 0,
-  port: 5432
 });
+
+console.log(process.env.DB_USER)
 
 pool.connect()
   .then(() => console.log('Connected to PostgresSQL server'))
