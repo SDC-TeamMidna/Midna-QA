@@ -104,3 +104,4 @@ dist
 .tern-port
 diagram/
 k6/
+src/config/

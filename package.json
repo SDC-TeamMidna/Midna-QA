@@ -2,10 +2,10 @@
   "name": "midna",
   "version": "1.0.0",
   "description": "SDC",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "jest --watchAll",
-    "start": "nodemon src/server/index.js"
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
