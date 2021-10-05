@@ -1,2 +1,9 @@
+**/node_modules
 node_modules
 npm-debug.log
+
+passphrase.txt
+logs/
+.git
+*.md
+.cache
