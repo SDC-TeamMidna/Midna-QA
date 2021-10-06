@@ -10,7 +10,10 @@ router.get('/qa/questions', (req, res) => {
   }
   db.getQuestions(params.productID, params.page, params.count)
     .then(data => res.json(data.rows))
-    .catch(err => res.send(err).status(500));
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err)
+    });
 });
 
 // Get the answer for the Question
@@ -23,7 +26,7 @@ router.get('/qa/questions/:question_id/answers', (req, res) => {
 
   db.getAnswers(questionID, params.page, params.count)
     .then(data => res.json(data.rows))
-    .catch(err => res.send(err).status(500));
+    .catch(err => res.status(500).send(err));
 });
 
 //Create a Question

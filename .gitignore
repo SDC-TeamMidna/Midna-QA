@@ -105,3 +105,4 @@ dist
 diagram/
 k6/
 src/config/
+dbdump/

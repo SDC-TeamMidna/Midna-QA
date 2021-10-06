@@ -2,7 +2,7 @@ import http from 'k6/http';
 import { sleep, check } from 'k6';
 
 export default function () {
-  const domain = 'http://localhost:5000';
+  const domain = 'http://localhost:8000';
   const id = Math.floor(Math.random() + 1000 + 900000);
 
   // Question get test
