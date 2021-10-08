@@ -4,14 +4,22 @@ require('dotenv').config({ path: path.join(__dirname, '../config/.env')});
 
 const { Pool } = require('pg');
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST || 'db',
-  database: process.env.DB,
-  port: process.env.DB_PORT,
-  password: process.env.DB_PASS,
-  max: 20,
-  idleTimeoutMillis: 0,
+  user: 'ubutu',
+  host: 'localhost',
+  database: 'SDC',
+  password: '',
+  port: 5432
 });
+
+// const pool = new Pool({
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST || 'db',
+//   database: process.env.DB,
+//   port: process.env.DB_PORT,
+//   password: process.env.DB_PASS,
+//   max: 20,
+//   idleTimeoutMillis: 0,
+// });
 
 // console.log(process.env.DB_USER)
 
