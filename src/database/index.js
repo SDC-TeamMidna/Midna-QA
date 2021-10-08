@@ -4,10 +4,10 @@ require('dotenv').config({ path: path.join(__dirname, '../config/.env')});
 
 const { Pool } = require('pg');
 const pool = new Pool({
-  user: 'ubutu',
+  user: 'ubuntu',
   host: 'localhost',
-  database: 'SDC',
-  password: '',
+  database: 'sdc',
+  password: '1234',
   port: 5432
 });
 
