@@ -22,5 +22,5 @@ app.listen(PORT, () => {
 /**
  // npm run star
  //ssh -i "Zuko7.cer" ubuntu@ec2-3-142-84-29.us-east-2.compute.amazonaws.com
-
+// sudo service postgresql restart
  */
