@@ -6,7 +6,6 @@
 ![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 ![AWS](https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
-![Loader.io](https://loader.io/)
 
 
 Developed by [Van Nguyen](https://github.com/vannguyen-vn)
@@ -25,7 +24,7 @@ The metrics to achieve were:
 
 The metrics achieved were:
   - Query speeds, per endpoint of < 17ms
-  - Near3000 requests per second, error rate of 0%
+  - Near 3000 requests per second, error rate of 0%
 
 
 ### Installation
