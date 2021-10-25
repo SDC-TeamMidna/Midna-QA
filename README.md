@@ -10,7 +10,9 @@
 
 
 Developed by [Van Nguyen](https://github.com/vannguyen-vn)
+
 ![image](https://user-images.githubusercontent.com/59850870/138746239-5bf5cfbf-b246-4ab2-8fbc-55f9289a351d.png)
+
 A microservice RESTful API for an ecommerce web app [Toph Clothing Co.](https://github.com/hr-rfp55-toph-FEC/Project-Catwalk). The other microservices are located here: [MidnaMicroservices](https://github.com/SDC-TeamMidna)
 
 The system was deployed onto several AWS EC2 instances, with an Nginx load balancer for 3 node servers, all quering one postgres database.
@@ -18,11 +20,11 @@ The system was deployed onto several AWS EC2 instances, with an Nginx load balan
 The goal of this project was to redesign the back end API service for an e-commerce web app, transforming it from a monolothic to a horizontally scalable, microservices based system architecture.
 
 The metrics to achieve were:
-  - a minimum query speed, per endpoint, of less than 100ms
-  -  1000 requests per second, while maintaining 100ms response, with an error rate at most 1% under load
+  - A minimum query speed, per endpoint, of less than 100ms
+  - 1000 requests per second, while maintaining 100ms response, with an error rate at most 1% under load
 
 The metrics achieved were:
-  - query speeds, per endpoint of < 17ms
+  - Query speeds, per endpoint of < 17ms
   - Near3000 requests per second, error rate of 0%
 
 
